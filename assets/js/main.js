@@ -23,7 +23,7 @@ let go = (page, attribute) => {
     panel = page;
     $(`#${page}`).setAttribute('class', attribute);
     pages.forEach(el => {
-        if(page !== el) (`#${el}`).setAttribute('class', 'd-none');
+        if(page !== el) $(`#${el}`).setAttribute('class', 'd-none');
     })
 }
 window.onload = () => {
