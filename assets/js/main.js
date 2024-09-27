@@ -26,8 +26,34 @@ let go = (page, attribute) => {
         if(page !== el) $(`#${el}`).setAttribute('class', 'd-none');
     })
 }
+
+let startLoop = () => {
+    let inter = setInterval(() => {
+        checkName();
+        if(panel !== 'start') clearInterval(inter);
+    }, 100)
+}
+
+let checkStorage = () => {
+    if(localStorage.getItem('userName') !== null) {
+        name = $('#nameInput').value = localStorage.getItem('userName');
+    }
+}
+
+let checkName = () => {
+    name = $('#nameInput').value.trim();
+    if(name !== '') {
+        localStorage.setItem('userName', name);
+        $('#startGame').removeAttribute('disabled');
+    } else {
+        $('#startGame').setAttribute('disabled', 'disabled');
+    }
+}
+
 window.onload = () => {
+    checkStorage();
     nav();
+    startLoop();
     setInterval(() => {
         if(panel === "game") {
             game = new Game();
