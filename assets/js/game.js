@@ -24,10 +24,10 @@ class Drawable {
 
     draw() {
         this.element.style = `
-        left: ${this.x}px;
-        top: ${this.y}px.
-        width: ${this.w}px.
-        height: ${this.h}px.
+            left: ${this.x}px;
+            top: ${this.y}px;
+            width: ${this.w}px;
+            height: ${this.h}px;
         `;
     }
 }
@@ -39,13 +39,43 @@ class Player extends Drawable {
         this.h = 109;
         this.x = window.innerWidth / 2 - this.w / 2;
         this.y = window.innerHeight - this.h;
+        this.speedPerFrame = 20;
+        this.keys = {
+            ArrowLeft: false,
+            ArrowRight: false
+        };
         this.createElement();
+        this.bindKeyEvents();
+    }
+
+    bindKeyEvents() {
+        document.addEventListener('keydown', ev => this.changeKeyStatus(ev.code, true));
+        document.addEventListener('keyup', ev => this.changeKeyStatus(ev.code, false));
+    }
+
+    changeKeyStatus(code, value) {
+        if(code in this.keys) this.keys[code] = value;
+    }
+
+    update() {
+        if(this.keys.ArrowLeft && this.x > 0) {
+            this.offsets.x = -this.speedPerFrame;
+        } else if(this.keys.ArrowRight && this.x < window.innerWidth - this.w) {
+            this.offsets.x = this.speedPerFrame;
+        } else {
+            this.offsets.x = 0;
+        }
+        super.update();
     }
 }
 
 class Game {
     constructor() {
         this.name = name;
+    }
+
+    start() {
+        this.loop();
         this.elements = [];
         this.player = this.generate(Player);
     }
@@ -56,12 +86,8 @@ class Game {
         return element;
     }
 
-    start() {
-        this.loop();
-    }
-
     loop() {
-        requestAnimationFrame(() => {
+        requestAnimationFrame( () => {
             this.updateElements();
             this.setParams();
             this.loop();
@@ -78,8 +104,8 @@ class Game {
     setParams() {
         let params = ['name'];
         let values = [this.name];
-        params.forEach((el, ind) => {
-            $(`#${el}`).innerHTML = values[ind];
+        params.forEach((el , ind) => {
+            $( `#${el}`).innerHTML = values[ind];
         })
     }
 }
