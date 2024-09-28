@@ -30,6 +30,22 @@ class Drawable {
             height: ${this.h}px;
         `;
     }
+
+    isCollision(element) {
+        let a = {
+            x1: this.x,
+            y1: this.y,
+            x2: this.x + this.w,
+            y2: this.y + this.h
+        }
+        let b = {
+            x1: element.x,
+            y1: element.y,
+            x2: element.x + element.w,
+            y2: element.y + element.h
+        }
+        return a.x1 < b.x2 && b.x1 < a.x2 && a.y1 < b.y2 && b.y1 < a.y2;
+    }
 }
 
 class Fruit extends Drawable {
@@ -41,6 +57,11 @@ class Fruit extends Drawable {
         this.x = random(0, window.innerWidth - this.w);
         this.offsets.y = 3;
         this.createElement();
+    }
+
+    update() {
+        if(this.isCollision(this.game.player)) console.log('col')
+        super.update();
     }
 }
 
