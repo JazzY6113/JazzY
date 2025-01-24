@@ -81,6 +81,19 @@ main {
     animation: rotate infinite .8s linear;
 }
 
+.pause {
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background-color: rgba(0 0 0 / 0.8);
+    color: #fff;
+}
+
 @keyframes rotate {
     to {
         transform: rotate(360deg);
